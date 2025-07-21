@@ -21,7 +21,7 @@ export default function HeroSection() {
   return (
     <section
       id="home"
-      className={`relative h-screen w-full overflow-hidden ${
+      className={`relative min-h-screen w-full overflow-hidden ${
         theme === "dark"
           ? "bg-gradient-to-br from-gray-900 to-gray-800"
           : "bg-gradient-to-br from-blue-50 to-indigo-100"
@@ -58,7 +58,7 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex h-full w-full flex-col-reverse md:flex-row-reverse items-center justify-center gap-8 px-4 text-center md:text-left">
+      <div className="relative z-10 flex h-full w-full flex-col-reverse md:flex-row-reverse items-center justify-center gap-8 px-4 text-center md:text-left mt-[5rem]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -106,7 +106,7 @@ export default function HeroSection() {
                   sentence="Mohamed Samy"
                   manualMode={false}
                   blurAmount={5}
-                  borderColor= {theme == "dark" ?"#E4ECFF" : "#615FFF"}
+                  borderColor={theme == "dark" ? "#E4ECFF" : "#615FFF"}
                   animationDuration={2}
                   pauseBetweenAnimations={1}
                 />
@@ -122,25 +122,25 @@ export default function HeroSection() {
             initial={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-             <motion.span
+            <motion.span
               id="typing-text"
               className="inline-block"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-            <TextType
-              text={subtitles.current}
-              textColors={
-                theme === "dark"
-                  ? ["#6366f1", "#818cf8", "#a5b4fc", "#c7d2fe"]
-                  : ["#4f46e5", "#4338ca", "#3730a3", "#312e81"]
-              }
-              typingSpeed={75}
-              pauseDuration={1500}
-              showCursor={true}
-              cursorCharacter="|"
-            />
-</motion.span>
+              <TextType
+                text={subtitles.current}
+                textColors={
+                  theme === "dark"
+                    ? ["#6366f1", "#818cf8", "#a5b4fc", "#c7d2fe"]
+                    : ["#4f46e5", "#4338ca", "#3730a3", "#312e81"]
+                }
+                typingSpeed={75}
+                pauseDuration={1500}
+                showCursor={true}
+                cursorCharacter="|"
+              />
+            </motion.span>
             {/* Text will be inserted by JS */}
           </motion.div>
 
@@ -210,7 +210,7 @@ export default function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
+        className="translate-x-1/2 my-3 z-10"
       >
         <ScrollLink to="about" smooth={true} duration={500}>
           <div
