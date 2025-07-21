@@ -1,7 +1,12 @@
-import { motion, useAnimation } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import { useState, useRef } from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { useTheme } from "../context/ThemeContext";
+import grainUrl from "../assets/grain.webp";
+import iconUrl from "../assets/iconpattern.png";
+import ProfileCard from "./ProfileCard";
+import TextType from "./TextType";
+import TrueFocus from "./TrueFocus";
 
 export default function HeroSection() {
   const [hovered, setHovered] = useState(false);
@@ -12,76 +17,6 @@ export default function HeroSection() {
     "React Specialist",
     "Tech Enthusiast",
   ]);
-  const currentSubtitle = useRef(0);
-  const currentChar = useRef(0);
-  const isDeleting = useRef(false);
-  const displayText = useRef("");
-  const animationFrameId = useRef<number>(0);
-  const lastUpdateTime = useRef(0);
-  const controls = useAnimation();
-
-  const animateText = (timestamp: number) => {
-    if (!lastUpdateTime.current) lastUpdateTime.current = timestamp;
-    const delta = timestamp - lastUpdateTime.current;
-
-    if (delta > (isDeleting.current ? 30 : 100)) {
-      const currentText = subtitles.current[currentSubtitle.current];
-
-      if (isDeleting.current) {
-        displayText.current = currentText.substring(0, currentChar.current - 1);
-        currentChar.current--;
-
-        if (currentChar.current === 0) {
-          isDeleting.current = false;
-          currentSubtitle.current =
-            (currentSubtitle.current + 1) % subtitles.current.length;
-        }
-      } else {
-        displayText.current = currentText.substring(0, currentChar.current + 1);
-        currentChar.current++;
-
-        if (currentChar.current === currentText.length) {
-          isDeleting.current = true;
-          // Update the display first, then set the pause
-          controls
-            .start({
-              opacity: 1,
-              transition: { duration: 0 },
-            })
-            .then(() => {
-              const el = document.getElementById("typing-text");
-              if (el) el.textContent = displayText.current;
-            });
-          lastUpdateTime.current = timestamp + 2000; // Pause before deleting
-          animationFrameId.current = requestAnimationFrame(animateText);
-          return;
-        }
-      }
-
-      controls
-        .start({
-          opacity: 1,
-          transition: { duration: 0 },
-        })
-        .then(() => {
-          const el = document.getElementById("typing-text");
-          if (el) el.textContent = displayText.current;
-        });
-
-      lastUpdateTime.current = timestamp;
-    }
-
-    animationFrameId.current = requestAnimationFrame(animateText);
-  };
-
-  useEffect(() => {
-    animationFrameId.current = requestAnimationFrame(animateText);
-    return () => {
-      if (animationFrameId.current) {
-        cancelAnimationFrame(animationFrameId.current);
-      }
-    };
-  }, []);
 
   return (
     <section
@@ -123,7 +58,29 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex h-full w-full flex-col items-center justify-center px-4 text-center">
+      <div className="relative z-10 flex h-full w-full flex-col-reverse md:flex-row-reverse items-center justify-center gap-8 px-4 text-center md:text-left">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-4xl"
+        >
+          <ProfileCard
+            name="Mohamed Samy"
+            title="Software Engineer"
+            handle="mohamedsamy911"
+            grainUrl={grainUrl}
+            iconUrl={iconUrl}
+            showBehindGradient={true}
+            innerGradient="linear-gradient(145deg,#60496e8c 0%,#4b596344 100%)"
+            status="Online"
+            contactText="Contact Me"
+            avatarUrl="/me.png"
+            showUserInfo={true}
+            enableTilt={true}
+            onContactClick={() => console.log("Contact clicked")}
+          />
+        </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -145,29 +102,46 @@ export default function HeroSection() {
             >
               Hello, I'm{" "}
               <span className="text-indigo-600 dark:text-indigo-400">
-                Mohamed Samy
+                <TrueFocus
+                  sentence="Mohamed Samy"
+                  manualMode={false}
+                  blurAmount={5}
+                  borderColor= {theme == "dark" ?"#E4ECFF" : "#615FFF"}
+                  animationDuration={2}
+                  pauseBetweenAnimations={1}
+                />
               </span>
             </motion.span>
           </motion.h1>
 
           {/* Typing subtitle */}
           <motion.div
-            className={`mb-8 text-xl md:text-2xl min-h-[2.5rem] flex justify-center ${
+            className={`mb-8 text-xl md:text-2xl min-h-[2.5rem] flex justify-center md:justify-start ${
               theme === "dark" ? "text-gray-300" : "text-gray-700"
             }`}
-            initial={{ opacity: 0 }}
-            animate={controls}
+            initial={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            <motion.span
+             <motion.span
               id="typing-text"
               className="inline-block"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              {/* Text will be inserted by JS */}
-            </motion.span>
-            <span className="animate-pulse">|</span>
+            <TextType
+              text={subtitles.current}
+              textColors={
+                theme === "dark"
+                  ? ["#6366f1", "#818cf8", "#a5b4fc", "#c7d2fe"]
+                  : ["#4f46e5", "#4338ca", "#3730a3", "#312e81"]
+              }
+              typingSpeed={75}
+              pauseDuration={1500}
+              showCursor={true}
+              cursorCharacter="|"
+            />
+</motion.span>
+            {/* Text will be inserted by JS */}
           </motion.div>
 
           {/* Animated CTA button */}

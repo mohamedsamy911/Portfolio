@@ -5,6 +5,7 @@ import AboutSection from "./components/AboutSection";
 import ContactSection from "./components/ContactSection";
 import ProjectsSection from "./components/ProjectsSection";
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
+
 function App() {
   return (
     <ThemeProvider>
