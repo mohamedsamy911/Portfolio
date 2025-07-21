@@ -21,7 +21,7 @@ export default function HeroSection() {
   return (
     <section
       id="home"
-      className={`relative min-h-screen w-full overflow-hidden ${
+      className={`relative min-h-screen w-full overflow-hidden flex flex-col justify-around ${
         theme === "dark"
           ? "bg-gradient-to-br from-gray-900 to-gray-800"
           : "bg-gradient-to-br from-blue-50 to-indigo-100"
@@ -58,7 +58,7 @@ export default function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex h-full w-full flex-col-reverse md:flex-row-reverse items-center justify-center gap-8 px-4 text-center md:text-left mt-[5rem]">
+      <div className="relative z-10 flex h-full w-full flex-col-reverse md:flex-row-reverse items-center justify-around gap-8 px-4 text-center md:text-left mt-[5rem]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
