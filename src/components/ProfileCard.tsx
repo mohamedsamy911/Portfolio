@@ -68,7 +68,6 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   status = "Online",
   contactText = "Contact",
   showUserInfo = true,
-  onContactClick,
 }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -244,10 +243,6 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     }),
     [iconUrl, grainUrl, showBehindGradient, behindGradient, innerGradient]
   );
-
-  const handleContactClick = useCallback(() => {
-    onContactClick?.();
-  }, [onContactClick]);
 
   return (
     <div
