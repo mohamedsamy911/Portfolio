@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { useTheme } from "../context/ThemeContext";
 import hms from "../assets/hms.png";
 import ras from "../assets/ras.png";
 import ecommerce from "../assets/e-commerce.png";
@@ -40,9 +39,10 @@ const projects = [
     pic: hms,
   },
 ];
-
-export default function ProjectsSection() {
-  const { theme } = useTheme();
+interface ProjectsSectionProps {
+  readonly theme: string;
+}
+const ProjectsSection: React.FC<ProjectsSectionProps> = ({theme}) => {
 
   return (
     <section
@@ -143,3 +143,4 @@ export default function ProjectsSection() {
     </section>
   );
 }
+export default ProjectsSection;

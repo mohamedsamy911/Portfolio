@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link as ScrollLink } from "react-scroll";
 import ThemeToggle from "./ThemeToggle";
-import { useTheme } from "../context/ThemeContext";
 
-export const Navbar = () => {
-  const { theme } = useTheme();
+interface NavbarProps {
+  readonly theme: string;
+}
+export const Navbar : React.FC<NavbarProps> = ({theme}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");

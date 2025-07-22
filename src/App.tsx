@@ -21,11 +21,11 @@ function PortfolioContent() {
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className={`min-h-screen`}>
         <div className="dark:bg-gray-900 dark:text-white">
-          <Navbar />
-          <HeroSection />
-          <ProjectsSection />
-          <AboutSection />
-          <ContactSection />
+          <Navbar theme={theme} />
+          <HeroSection theme={theme} />
+          <ProjectsSection theme={theme} />
+          <AboutSection theme={theme} />
+          <ContactSection theme={theme} />
           <AIChat theme={theme} />
           <footer
             className={`py-8 text-center ${

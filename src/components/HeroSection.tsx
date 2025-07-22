@@ -1,16 +1,16 @@
 import { motion } from "framer-motion";
 import { useState, useRef } from "react";
 import { Link as ScrollLink } from "react-scroll";
-import { useTheme } from "../context/ThemeContext";
 import grainUrl from "../assets/grain.webp";
 import iconUrl from "../assets/iconpattern.png";
 import ProfileCard from "./ProfileCard";
 import TextType from "./TextType";
 import TrueFocus from "./TrueFocus";
-
-export default function HeroSection() {
+interface HeroSectionProps {
+  readonly theme: string;
+}
+const HeroSection: React.FC<HeroSectionProps> = ({theme}) => {
   const [hovered, setHovered] = useState(false);
-  const { theme } = useTheme();
   const subtitles = useRef([
     "JavaScript Developer",
     "Full Stack Engineer",
@@ -78,7 +78,6 @@ export default function HeroSection() {
             avatarUrl="/me.png"
             showUserInfo={true}
             enableTilt={true}
-            onContactClick={() => console.log("Contact clicked")}
           />
         </motion.div>
         <motion.div
@@ -235,3 +234,4 @@ export default function HeroSection() {
     </section>
   );
 }
+export default HeroSection;

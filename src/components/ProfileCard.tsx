@@ -49,7 +49,6 @@ export type ProfileCardProps = {
   status?: string;
   contactText?: string;
   showUserInfo?: boolean;
-  onContactClick?: () => void;
 };
 
 const ProfileCardComponent: React.FC<ProfileCardProps> = ({

@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown"; // Import ReactMarkdown for rendering Markdown
 
@@ -8,7 +9,7 @@ interface Message {
 }
 
 // Mock resume data - REPLACE THIS WITH YOUR ACTUAL RESUME CONTENT
-const RESUME_CONTENT = `
+export const RESUME_CONTENT = `
   Name: Mohamed Adel Samy
   Title: SOFTWARE ENGINEER
   Contact: mohamedadel74@gmail.com | (+20)1101021996
@@ -255,76 +256,83 @@ const AIChat: React.FC<AIChatProps> = ({ theme }) => {
       </button>
 
       {/* Chat Component */}
-      {isChatOpen && (
-        <div
-          className={`fixed bottom-0 left-0 w-full h-[75vh] sm:bottom-4 sm:right-4 sm:w-96 sm:h-[70vh] rounded-lg shadow-xl flex flex-col overflow-hidden z-51 transition-all duration-300 ease-in-out
+      <AnimatePresence>
+        {isChatOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 600, x: 0 }} // Initial position slightly off-screen
+            animate={{ opacity: 1, y: 0, x: 0 }} // Animate to desired position
+            exit={{y: 600, x: 0 }} // Animate out to slightly off-screen
+            transition={{ duration: 0.3, ease: "easeOut" }} // Smoother transition
+            className={`fixed bottom-0 left-0 w-full h-[75vh] sm:bottom-4 sm:right-4 sm:w-96 sm:h-[70vh] rounded-lg shadow-xl flex flex-col overflow-hidden z-51 transition-all duration-300 ease-in-out
         ${theme === "dark" ? "bg-gray-900" : "bg-white"}
         `}
-        >
-          {/* Header */}
-          <div
-            className={`bg-gradient-to-r  p-4 rounded-t-lg shadow-md flex justify-between items-center
+          >
+            {/* Header */}
+            <div
+              className={`bg-gradient-to-r  p-4 rounded-t-lg shadow-md flex justify-between items-center
             ${
               theme === "dark"
                 ? "from-indigo-800 to-indigo-700 text-amber-50"
                 : "from-indigo-600 to-indigo-500"
             }
             `}
-          >
-            <h1 className="text-xl font-bold">Chat with Samys' Resume</h1>
-            <div className="flex items-center space-x-2">
-              {/* Collapse/Expand Features Button */}
-              <button
-                onClick={() => setIsFeaturesCollapsed(!isFeaturesCollapsed)}
-                className="text-white hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white rounded-full p-1"
-                aria-label={
-                  isFeaturesCollapsed ? "Expand features" : "Collapse features"
-                }
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`h-6 w-6 transition-transform duration-300 ${
-                    isFeaturesCollapsed ? "rotate-180" : ""
-                  }`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
+            >
+              <h1 className="text-xl font-bold">Chat with Samys' Resume</h1>
+              <div className="flex items-center space-x-2">
+                {/* Collapse/Expand Features Button */}
+                <button
+                  onClick={() => setIsFeaturesCollapsed(!isFeaturesCollapsed)}
+                  className="text-white hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-white rounded-full p-1"
+                  aria-label={
+                    isFeaturesCollapsed
+                      ? "Expand features"
+                      : "Collapse features"
+                  }
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-              {/* Close Chat Button */}
-              <button
-                onClick={() => setIsChatOpen(false)}
-                className="text-white hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white rounded-full p-1"
-                aria-label="Close chat"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`h-6 w-6 transition-transform duration-300 cursor-pointer ${
+                      isFeaturesCollapsed ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                {/* Close Chat Button */}
+                <button
+                  onClick={() => setIsChatOpen(false)}
+                  className="text-white hover:text-gray-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-white rounded-full p-1"
+                  aria-label="Close chat"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* New Feature Buttons */}
-          <div
-            className={` border-b flex flex-wrap gap-2 justify-center
+            {/* New Feature Buttons */}
+            <div
+              className={` border-b flex flex-wrap gap-2 justify-center
                 ${
                   isFeaturesCollapsed
                     ? "max-h-0 overflow-hidden p-0 border-b-0"
@@ -336,140 +344,143 @@ const AIChat: React.FC<AIChatProps> = ({ theme }) => {
                 : "bg-white text-gray-800 border-gray-200"
             }
             `}
-          >
-            <button
-              onClick={handleSummarizeResume}
-              className={`text-white px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 transition duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed
+            >
+              <button
+                onClick={handleSummarizeResume}
+                className={`text-white px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 transition duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed
                 ${
                   theme === "dark"
                     ? "bg-green-600 hover:bg-green-500 focus:ring-green-500"
                     : "bg-green-500 hover:bg-green-400 focus:ring-green-300"
                 }
                 `}
-              disabled={isSummarizing || isLoading || isGeneratingQuestions}
-            >
-              ✨ Summarize Resume
-            </button>
-            <button
-              onClick={handleGenerateInterviewQuestions}
-              className={`text-white px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 transition duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed
+                disabled={isSummarizing || isLoading || isGeneratingQuestions}
+              >
+                ✨ Summarize Resume
+              </button>
+              <button
+                onClick={handleGenerateInterviewQuestions}
+                className={`text-white px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 transition duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed
                 ${
                   theme === "dark"
                     ? "bg-purple-600 hover:bg-purple-500 focus:ring-purple-500"
                     : "bg-purple-500 hover:bg-purple-400 focus:ring-purple-300"
                 }
                 `}
-              disabled={isGeneratingQuestions || isLoading || isSummarizing}
-            >
-              ✨ Generate Interview Questions
-            </button>
-          </div>
+                disabled={isGeneratingQuestions || isLoading || isSummarizing}
+              >
+                ✨ Generate Interview Questions
+              </button>
+            </div>
 
-          {/* Chat Messages Area */}
-          <div
-            className={`flex-1 p-4 overflow-y-auto space-y-4
+            {/* Chat Messages Area */}
+            <div
+              className={`flex-1 p-4 overflow-y-auto space-y-4
             ${theme === "dark" ? "text-gray-300" : "text-gray-800"}
             `}
-          >
-            {messages.length === 0 && (
-              <div className="text-center mt-10">
-                <p>Ask me anything about my resume!</p>
-                <p className="text-sm">
-                  e.g., "How many years of experience do you have?" or "Tell me
-                  about your e-commerce project."
-                </p>
-              </div>
-            )}
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`flex ${
-                  msg.sender === "user" ? "justify-end" : "justify-start"
-                }`}
-              >
+            >
+              {messages.length === 0 && (
+                <div className="text-center mt-10">
+                  <p>Ask me anything about my resume!</p>
+                  <p className="text-sm">
+                    e.g., "How many years of experience do you have?" or "Tell
+                    me about your e-commerce project."
+                  </p>
+                </div>
+              )}
+              {messages.map((msg, index) => (
                 <div
-                  className={`max-w-[75%] p-3 rounded-lg shadow-md ${
-                    msg.sender === "user"
-                      ? `${
-                          theme === "dark"
-                            ? "bg-indigo-600 text-white rounded-br-none"
-                            : "bg-indigo-200 text-gray-800 rounded-bl-none"
-                        }`
-                      : `${
-                          theme === "dark"
-                            ? "bg-gray-800 text-gray-300 rounded-bl-none"
-                            : "bg-gray-200 text-gray-800 rounded-bl-none"
-                        }`
+                  key={index}
+                  className={`flex ${
+                    msg.sender === "user" ? "justify-end" : "justify-start"
                   }`}
                 >
-                  {/* Render Gemini responses as Markdown */}
-                  {msg.sender === "gemini" ? (
-                    <ReactMarkdown>{msg.text}</ReactMarkdown>
-                  ) : (
-                    msg.text
-                  )}
-                </div>
-              </div>
-            ))}
-            {(isLoading || isSummarizing || isGeneratingQuestions) && (
-              <div className="flex justify-start">
-                <div className="max-w-[75%] p-3 rounded-lg shadow-md bg-gray-200 text-gray-800 rounded-bl-none">
-                  <div className="flex items-center">
-                    <span className="animate-bounce text-xl mr-1">.</span>
-                    <span className="animate-bounce text-xl mr-1 delay-75">
-                      .
-                    </span>
-                    <span className="animate-bounce text-xl delay-150">.</span>
+                  <div
+                    className={`max-w-[75%] p-3 rounded-lg shadow-md ${
+                      msg.sender === "user"
+                        ? `${
+                            theme === "dark"
+                              ? "bg-indigo-600 text-white rounded-br-none"
+                              : "bg-indigo-200 text-gray-800 rounded-bl-none"
+                          }`
+                        : `${
+                            theme === "dark"
+                              ? "bg-gray-800 text-gray-300 rounded-bl-none"
+                              : "bg-gray-200 text-gray-800 rounded-bl-none"
+                          }`
+                    }`}
+                  >
+                    {/* Render Gemini responses as Markdown */}
+                    {msg.sender === "gemini" ? (
+                      <ReactMarkdown>{msg.text}</ReactMarkdown>
+                    ) : (
+                      msg.text
+                    )}
                   </div>
                 </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} /> {/* Scroll target */}
-          </div>
+              ))}
+              {(isLoading || isSummarizing || isGeneratingQuestions) && (
+                <div className="flex justify-start">
+                  <div className="max-w-[75%] p-3 rounded-lg shadow-md bg-gray-200 text-gray-800 rounded-bl-none">
+                    <div className="flex items-center">
+                      <span className="animate-bounce text-xl mr-1">.</span>
+                      <span className="animate-bounce text-xl mr-1 delay-75">
+                        .
+                      </span>
+                      <span className="animate-bounce text-xl delay-150">
+                        .
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} /> {/* Scroll target */}
+            </div>
 
-          {/* Message Input */}
-          <form
-            onSubmit={handleSendMessage}
-            className={`p-4 border-t rounded-b-lg
+            {/* Message Input */}
+            <form
+              onSubmit={handleSendMessage}
+              className={`p-4 border-t rounded-b-lg
                 ${
                   theme === "dark"
                     ? "border-gray-700 bg-gray-900"
                     : "border-gray-200 bg-gray-50"
                 }
                 `}
-          >
-            <div className="flex space-x-3">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask a question about my resume..."
-                className={`flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200
+            >
+              <div className="flex space-x-3">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Ask a question about my resume..."
+                  className={`flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200
                     ${
                       theme === "dark"
                         ? "bg-gray-800 text-gray-300"
                         : "bg-white text-gray-800"
                     }
                     `}
-                disabled={isLoading || isSummarizing || isGeneratingQuestions}
-              />
-              <button
-                type="submit"
-                className={` text-white px-6 cursor-pointer py-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed
+                  disabled={isLoading || isSummarizing || isGeneratingQuestions}
+                />
+                <button
+                  type="submit"
+                  className={` text-white px-6 cursor-pointer py-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed
                     ${
                       theme === "dark"
                         ? "bg-indigo-800 hover:bg-indigo-700 focus:ring-indigo-500"
                         : "bg-indigo-600 hover:bg-indigo-500 focus:ring-indigo-400"
                     }
                     `}
-                disabled={isLoading || isSummarizing || isGeneratingQuestions}
-              >
-                {isLoading ? "Sending..." : "Send"}
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
+                  disabled={isLoading || isSummarizing || isGeneratingQuestions}
+                >
+                  {isLoading ? "Sending..." : "Send"}
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
