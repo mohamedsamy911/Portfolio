@@ -5,6 +5,7 @@ import AboutSection from "./components/AboutSection";
 import ContactSection from "./components/ContactSection";
 import ProjectsSection from "./components/ProjectsSection";
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
+import AIChat from "./components/AIChat";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function PortfolioContent() {
           <ProjectsSection />
           <AboutSection />
           <ContactSection />
-          {/* Optional footer */}
+          <AIChat theme={theme} />
           <footer
             className={`py-8 text-center ${
               theme === "dark"
