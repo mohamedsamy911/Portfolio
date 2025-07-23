@@ -6,6 +6,7 @@ import ContactSection from "./components/ContactSection";
 import ProjectsSection from "./components/ProjectsSection";
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
 import AIChat from "./components/AIChat";
+import { useEffect } from "react";
 
 function App() {
   return (
@@ -17,6 +18,16 @@ function App() {
 
 function PortfolioContent() {
   const { theme } = useTheme();
+  useEffect(() => {
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeColorMeta) {
+      if (theme === "dark") {
+        themeColorMeta.setAttribute("content", "oklch(21% 0.034 264.665)");
+      } else {
+        themeColorMeta.setAttribute("content", "#E6EDFF");
+      }
+    }
+  }, [theme]); // Rerun this effect whenever the theme state changes
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <div className={`min-h-screen`}>
