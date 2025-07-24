@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Message {
   text: string;
@@ -117,7 +118,12 @@ const AIChat: React.FC<AIChatProps> = ({ theme }) => {
       result.candidates[0].content.parts &&
       result.candidates[0].content.parts.length > 0
     ) {
-      return result.candidates[0].content.parts[0].text;
+      let responseText = result.candidates[0].content.parts[0].text;
+      const cleanedText = responseText
+        .replace(/^```markdown\n/, "")
+        .replace(/\n```$/, "");
+
+      return cleanedText;
     } else {
       console.error("Gemini API response structure unexpected:", result);
       throw new Error("Unexpected API response structure.");
@@ -413,7 +419,9 @@ const AIChat: React.FC<AIChatProps> = ({ theme }) => {
                   >
                     {/* Render Gemini responses as Markdown */}
                     {msg.sender === "gemini" ? (
-                      <ReactMarkdown>{msg.text}</ReactMarkdown>
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {msg.text}
+                      </ReactMarkdown>
                     ) : (
                       msg.text
                     )}
