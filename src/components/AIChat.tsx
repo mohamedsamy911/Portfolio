@@ -1,14 +1,12 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState, useEffect, useRef } from "react";
-import ReactMarkdown from "react-markdown"; // Import ReactMarkdown for rendering Markdown
+import ReactMarkdown from "react-markdown";
 
-// Define the type for a chat message
 interface Message {
   text: string;
   sender: "user" | "gemini";
 }
 
-// Mock resume data - REPLACE THIS WITH YOUR ACTUAL RESUME CONTENT
 export const RESUME_CONTENT = `
   Name: Mohamed Adel Samy
   Title: SOFTWARE ENGINEER
@@ -136,7 +134,8 @@ const AIChat: React.FC<AIChatProps> = ({ theme }) => {
     setIsLoading(true);
 
     try {
-      const prompt = `Based on the following resume information, answer the user's question. If the information is not explicitly in the resume, state that you cannot find it.
+      const prompt = `Respond in the same language as the user's question, or if a specific language is mentioned, use that language.
+      Based on the following resume information, answer the user's question. If the information is not explicitly in the resume, state that you cannot find it.
 
       Resume:
       ${RESUME_CONTENT}
@@ -170,7 +169,8 @@ const AIChat: React.FC<AIChatProps> = ({ theme }) => {
     setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     try {
-      const prompt = `Provide a concise summary of the following resume, highlighting key skills, experience, and achievements. Format the summary using Markdown.
+      const prompt = `Respond in the same language as the user's question, or if a specific language is mentioned, use that language.
+      Provide a concise summary of the following resume, highlighting key skills, experience, and achievements. Format the summary using Markdown.
 
       Resume:
       ${RESUME_CONTENT}`;
@@ -202,7 +202,8 @@ const AIChat: React.FC<AIChatProps> = ({ theme }) => {
     setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     try {
-      const prompt = `Generate 3-5 common interview questions based on the content of the following resume. Focus on areas like experience, projects, and skills. Format the questions as a numbered list using Markdown.
+      const prompt = `Respond in the same language as the user's question, or if a specific language is mentioned, use that language.
+      Generate 3-5 common interview questions based on the content of the following resume. Focus on areas like experience, projects, and skills. Format the questions as a numbered list using Markdown.
 
       Resume:
       ${RESUME_CONTENT}`;
@@ -261,7 +262,7 @@ const AIChat: React.FC<AIChatProps> = ({ theme }) => {
           <motion.div
             initial={{ opacity: 0, y: 600, x: 0 }} // Initial position slightly off-screen
             animate={{ opacity: 1, y: 0, x: 0 }} // Animate to desired position
-            exit={{y: 600, x: 0 }} // Animate out to slightly off-screen
+            exit={{ y: 600, x: 0 }} // Animate out to slightly off-screen
             transition={{ duration: 0.3, ease: "easeOut" }} // Smoother transition
             className={`fixed bottom-0 left-0 w-full h-[75vh] sm:bottom-4 sm:right-4 sm:w-96 sm:h-[70vh] rounded-lg shadow-xl flex flex-col overflow-hidden z-51 transition-all duration-300 ease-in-out
         ${theme === "dark" ? "bg-gray-900" : "bg-white"}

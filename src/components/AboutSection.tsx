@@ -1,17 +1,55 @@
-import { motion } from "framer-motion";
-import React from "react"; // Explicitly import React for FC type
+import { motion, useInView } from "framer-motion";
+import React, { useEffect, useRef, useState, type JSX } from "react";
 import { RESUME_CONTENT } from "./AIChat";
 import resumePdfPath from "../assets/Resume 22025.pdf";
+import * as Icons from "lucide-react";
+
 interface AboutSectionProps {
   readonly theme: string;
 }
 
 const AboutSection: React.FC<AboutSectionProps> = ({ theme }) => {
-  // Extracting relevant data from RESUME_CONTENT
-  const professionalSummary = /PROFESSIONAL SUMMARY:([\s\S]*?)TECHNICAL SKILLS:/
-    .exec(RESUME_CONTENT)?.[1]
-    .trim();
-  // const resumePdfPath = "../assets/Resume 22025.pdf";
+  const cardRef = useRef(null);
+  const isInView = useInView(cardRef, { amount: 0.3 });
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    isInView ? setHasAnimated(true) : setHasAnimated(false);
+  }, [isInView]);
+
+  const professionalSummary =
+    /PROFESSIONAL SUMMARY:([\s\S]*?)TECHNICAL SKILLS:/i
+      .exec(RESUME_CONTENT)?.[1]
+      .trim();
+
+  const skillIconMap: Record<string, JSX.Element> = {
+    "React.js": <Icons.Code className="w-4 h-4" />,
+    NestJS: <Icons.Cable className="w-4 h-4" />,
+    TypeScript: <Icons.Code2 className="w-4 h-4" />,
+    Docker: <Icons.Container className="w-4 h-4" />,
+    NGINX: <Icons.Server className="w-4 h-4" />,
+    Linux: <Icons.Terminal className="w-4 h-4" />,
+    PostgreSQL: <Icons.Database className="w-4 h-4" />,
+    "RESTful APIs": <Icons.Link className="w-4 h-4" />,
+    Microservices: <Icons.Network className="w-4 h-4" />,
+    "CI/CD": <Icons.GitBranch className="w-4 h-4" />,
+    "Agile Methodologies": <Icons.Clock className="w-4 h-4" />,
+    "Problem Solving": <Icons.Puzzle className="w-4 h-4" />,
+    Communication: <Icons.MessageSquare className="w-4 h-4" />,
+    Github: <Icons.Github className="w-4 h-4" />,
+  };
+
+  const experienceData = [
+    { technology: "React.js", years: 3 },
+    { technology: "Node.js", years: 5 },
+    { technology: "TypeScript", years: 3 },
+    { technology: "Docker", years: 4 },
+    { technology: "PostgreSQL", years: 5 },
+    { technology: "REST APIs", years: 5 },
+    { technology: "Microservices", years: 3 },
+    { technology: "Java (Spring Boot)", years: 2 },
+  ];
+
   const keySkills = [
     "React.js",
     "NestJS",
@@ -26,24 +64,14 @@ const AboutSection: React.FC<AboutSectionProps> = ({ theme }) => {
     "Agile Methodologies",
     "Problem Solving",
     "Communication",
-  ];
-
-  // For the "My Skills" section, using a selection of key technical skills with arbitrary levels
-  const mySkills = [
-    { name: "React.js", level: 90 },
-    { name: "Java (Spring Boot)", level: 60 },
-    { name: "NestJS", level: 85 },
-    { name: "TypeScript", level: 88 },
-    { name: "Docker", level: 80 },
-    { name: "PostgreSQL", level: 75 },
-    { name: "REST APIs", level: 90 },
+    "Github",
   ];
 
   return (
     <section
       id="about"
-      className={`min-h-screen w-full py-20 px-4 ${
-        theme === "dark" ? "bg-gray-800" : "bg-gray-100"
+      className={`min-h-screen w-full py-20 px-4 transition-colors duration-300 ${
+        theme === "dark" ? "bg-gray-900" : "bg-gray-100"
       }`}
     >
       <div className="container mx-auto">
@@ -52,7 +80,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ theme }) => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="max-w-4xl mx-auto text-center"
+          className="max-w-5xl mx-auto text-center"
         >
           <h2
             className={`text-4xl md:text-5xl font-bold mb-8 ${
@@ -63,61 +91,61 @@ const AboutSection: React.FC<AboutSectionProps> = ({ theme }) => {
             <span className="text-indigo-600 dark:text-indigo-400">Me</span>
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-12 items-start">
+            {/* Summary + Skills */}
             <div className="text-left">
               <p
-                className={`text-lg mb-6 ${
-                  theme === "dark" ? "text-gray-300" : "text-gray-600"
+                className={`text-lg mb-6 leading-relaxed ${
+                  theme === "dark" ? "text-gray-300" : "text-gray-700"
                 }`}
               >
                 {professionalSummary ||
                   "Results-driven Software Engineer with extensive experience in building scalable, secure web applications."}
               </p>
-              <div className="space-y-4">
-                {keySkills.slice(0, 4).map(
-                  (
-                    skill // Displaying a subset of key skills with checkmarks
-                  ) => (
-                    <div key={skill} className="flex items-center">
-                      <div
-                        className={`w-12 h-12 rounded-full flex items-center justify-center mr-4 ${
-                          theme === "dark"
-                            ? "bg-indigo-500/10"
-                            : "bg-indigo-100"
-                        }`}
-                      >
-                        <span
-                          className={`text-xl ${
-                            theme === "dark"
-                              ? "text-indigo-400"
-                              : "text-indigo-600"
-                          }`}
-                        >
-                          ✓
-                        </span>
-                      </div>
-                      <span
-                        className={
-                          theme === "dark" ? "text-white" : "text-gray-900"
-                        }
-                      >
-                        {skill}
-                      </span>
-                    </div>
-                  )
-                )}
-              </div>
-              {/* Download Resume Button */}
+
+              {/* Skill Badges */}
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                variants={{
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.05 } },
+                }}
+                viewport={{ once: true }}
+                className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-8"
+              >
+                {keySkills.map((skill) => (
+                  <motion.div
+                    key={skill}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className={`flex items-center px-4 py-2 rounded-lg shadow-sm border gap-2 text-sm font-medium 
+        ${
+          theme === "dark"
+            ? "bg-indigo-500/10 text-indigo-200 border-indigo-600 hover:bg-indigo-600/20"
+            : "bg-indigo-100 text-indigo-800 border-indigo-300 hover:bg-indigo-200"
+        } transition-transform duration-200 hover:-translate-y-1`}
+                  >
+                    {skillIconMap[skill] || (
+                      <Icons.BadgeInfo className="w-4 h-4" />
+                    )}
+                    {skill}
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              {/* Download Button */}
               <motion.a
                 href={resumePdfPath}
-                download="Mohamed_Samy_Resume.pdf" // Suggested filename for download
-                whileHover={{ scale: 1.02 }}
+                download="Mohamed_Samy_Resume.pdf"
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className={`mt-8 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm transition-colors duration-200
+                className={`mt-8 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-lg transition-all duration-300
                   ${
                     theme === "dark"
-                      ? "bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500"
-                      : "bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500"
+                      ? "bg-indigo-600 text-white hover:shadow-indigo-500/30"
+                      : "bg-indigo-600 text-white hover:shadow-indigo-400/40"
                   }
                 `}
               >
@@ -133,64 +161,69 @@ const AboutSection: React.FC<AboutSectionProps> = ({ theme }) => {
                     strokeLinejoin="round"
                     strokeWidth={2}
                     d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  ></path>
+                  />
                 </svg>
                 Download Resume
               </motion.a>
             </div>
 
+            {/* Skills/Experience Card */}
             <motion.div
               initial={{ scale: 0.9 }}
               whileInView={{ scale: 1 }}
               transition={{ duration: 0.5 }}
               className="relative"
+              ref={cardRef}
             >
               <div
-                className={`rounded-2xl p-8 backdrop-blur-sm border ${
-                  theme === "dark"
-                    ? "bg-indigo-500/10 border-indigo-500/20"
-                    : "bg-indigo-100/50 border-indigo-200"
-                }`}
+                className={`rounded-3xl p-8 shadow-xl border backdrop-blur-xl transition-all duration-300
+        ${
+          theme === "dark"
+            ? "bg-gradient-to-br from-indigo-900/30 to-indigo-600/10 border-indigo-600/20"
+            : "bg-gradient-to-br from-white to-indigo-100/50 border-indigo-200"
+        }`}
               >
                 <h3
-                  className={`text-2xl font-bold mb-6 ${
-                    theme === "dark" ? "text-white" : "text-gray-900"
+                  className={`text-3xl font-semibold mb-6 tracking-tight ${
+                    theme === "dark" ? "text-white" : "text-gray-800"
                   }`}
                 >
                   My Skills
                 </h3>
-                <div className="space-y-4">
-                  {mySkills.map((skill) => (
-                    <div key={skill.name}>
-                      <div className="flex justify-between items-center mb-1">
+                <div className="space-y-5">
+                  {experienceData.map((item) => (
+                    <div key={item.technology}>
+                      <div className="flex justify-between mb-1">
                         <span
                           className={`text-sm font-medium ${
-                            theme === "dark" ? "text-gray-300" : "text-gray-600"
+                            theme === "dark" ? "text-gray-300" : "text-gray-700"
                           }`}
                         >
-                          {skill.name}
+                          {item.technology}
                         </span>
                         <span
-                          className={`text-sm ${
+                          className={`text-sm font-semibold ${
                             theme === "dark"
-                              ? "text-indigo-400"
+                              ? "text-indigo-300"
                               : "text-indigo-600"
                           }`}
                         >
-                          {skill.level}%
+                          {item.years}+ {item.years === 1 ? "year" : "years"}
                         </span>
                       </div>
-                      <div
-                        className={`w-full rounded-full h-2 ${
-                          theme === "dark" ? "bg-gray-700" : "bg-gray-300"
-                        }`}
-                      >
-                        <div
-                          className={`h-2 rounded-full transition-all duration-500 ease-out ${
+                      <div className="w-full h-2 rounded-full bg-gray-300 dark:bg-gray-700 overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={
+                            hasAnimated
+                              ? { width: `${(item.years / 5) * 100}%` }
+                              : { width: 0 }
+                          }
+                          transition={{ duration: 0.7, delay: 0.1 }}
+                          className={`h-full rounded-full ${
                             theme === "dark" ? "bg-indigo-500" : "bg-indigo-600"
                           }`}
-                          style={{ width: `${skill.level}%` }}
-                        ></div>
+                        />
                       </div>
                     </div>
                   ))}
@@ -203,4 +236,5 @@ const AboutSection: React.FC<AboutSectionProps> = ({ theme }) => {
     </section>
   );
 };
+
 export default AboutSection;
