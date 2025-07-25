@@ -61,12 +61,17 @@ export const Navbar: React.FC<NavbarProps> = ({ theme }) => {
             className="text-2xl font-bold"
           >
             <ScrollLink
+              href="#home"
               to="home"
               smooth={true}
               duration={500}
               className="cursor-pointer"
             >
-              <img src={"/logo.webp"} alt="Mohamed Samy" className="w-15 h-15" />
+              <img
+                src={"/logo.webp"}
+                alt="Mohamed Samy"
+                className="w-15 h-15"
+              />
             </ScrollLink>
           </motion.div>
 

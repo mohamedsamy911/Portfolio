@@ -258,7 +258,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
               className="avatar"
               src={avatarUrl}
               alt={`${name || "User"} avatar`}
-              loading="lazy"
+              fetchPriority="high"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = "none";
@@ -286,6 +286,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                 </div>
                 <ScrollLink
                   to="contact"
+                  href="#contact"
                   smooth={true}
                   duration={500}
                   className="pc-contact-btn"

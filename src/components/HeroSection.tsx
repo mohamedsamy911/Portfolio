@@ -9,7 +9,7 @@ import TrueFocus from "./TrueFocus";
 interface HeroSectionProps {
   readonly theme: string;
 }
-const HeroSection: React.FC<HeroSectionProps> = ({theme}) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ theme }) => {
   const [hovered, setHovered] = useState(false);
   const subtitles = useRef([
     "JavaScript Developer",
@@ -151,6 +151,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({theme}) => {
           >
             <ScrollLink
               to="projects"
+              href="#projects"
               smooth={true}
               duration={500}
               onMouseEnter={() => setHovered(true)}
@@ -211,7 +212,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({theme}) => {
         transition={{ delay: 1.5 }}
         className="translate-x-1/2 my-3 z-10"
       >
-        <ScrollLink to="about" smooth={true} duration={500}>
+        <ScrollLink to="about" href="#about" smooth={true} duration={500}>
           <div
             className={`flex h-10 w-6 items-start justify-center rounded-full border-2 p-1 ${
               theme === "dark" ? "border-white/50" : "border-gray-700/50"
@@ -233,5 +234,5 @@ const HeroSection: React.FC<HeroSectionProps> = ({theme}) => {
       </motion.div>
     </section>
   );
-}
+};
 export default HeroSection;
