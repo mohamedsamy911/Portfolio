@@ -212,7 +212,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ theme }) => {
         transition={{ delay: 1.5 }}
         className="translate-x-1/2 my-3 z-10"
       >
-        <ScrollLink to="about" href="#about" smooth={true} duration={500}>
+        <ScrollLink aria-label="Scroll to About Section" to="about" href="#about" smooth={true} duration={500}>
           <div
             className={`flex h-10 w-6 items-start justify-center rounded-full border-2 p-1 ${
               theme === "dark" ? "border-white/50" : "border-gray-700/50"
