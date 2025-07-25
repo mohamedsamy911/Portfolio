@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import { motion } from "framer-motion";
 
 interface TrueFocusProps {
@@ -18,7 +18,7 @@ interface FocusRect {
     height: number;
 }
 
-const TrueFocus: React.FC<TrueFocusProps> = ({
+const TrueFocus: React.FC<TrueFocusProps> = memo(({
     sentence = "True Focus",
     manualMode = false,
     blurAmount = 5,
@@ -150,6 +150,6 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
             </motion.div>
         </div>
     );
-};
+});
 
 export default TrueFocus;
