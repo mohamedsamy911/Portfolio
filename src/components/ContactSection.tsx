@@ -205,14 +205,17 @@ const ContactSection: React.FC<ContactSectionProps> = ({ theme }) => {
                     {
                       name: "github",
                       link: "https://github.com/mohamedsamy911",
+                      "aria-label": "Github",
                     },
                     {
                       name: "linkedin",
                       link: "https://www.linkedin.com/in/mohamed-samy-ba0107141/",
+                      "aria-label": "LinkedIn",
                     },
                   ].map((social) => (
                     <motion.a
                       key={social.name}
+                      aria-label={social["aria-label"]}
                       href={social.link}
                       target="_blank"
                       rel="noopener noreferrer" // Added for security best practices

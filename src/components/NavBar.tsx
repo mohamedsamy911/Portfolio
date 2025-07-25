@@ -6,7 +6,7 @@ import ThemeToggle from "./ThemeToggle";
 interface NavbarProps {
   readonly theme: string;
 }
-export const Navbar : React.FC<NavbarProps> = ({theme}) => {
+export const Navbar: React.FC<NavbarProps> = ({ theme }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
@@ -66,7 +66,7 @@ export const Navbar : React.FC<NavbarProps> = ({theme}) => {
               duration={500}
               className="cursor-pointer"
             >
-              <img src={"/logo.png"} alt="Mohamed Samy" className="w-15 h-15" />
+              <img src={"/logo.webp"} alt="Mohamed Samy" className="w-15 h-15" />
             </ScrollLink>
           </motion.div>
 
@@ -74,6 +74,7 @@ export const Navbar : React.FC<NavbarProps> = ({theme}) => {
           <div className="hidden md:flex space-x-8 items-center">
             {navItems.map((item) => (
               <ScrollLink
+                href={`#${item.id}`}
                 key={item.id}
                 to={item.id}
                 smooth={true}

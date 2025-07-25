@@ -75,7 +75,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({theme}) => {
             innerGradient="linear-gradient(145deg,#60496e8c 0%,#4b596344 100%)"
             status="Online"
             contactText="Contact Me"
-            avatarUrl="/me.png"
+            avatarUrl="/me.webp"
             showUserInfo={true}
             enableTilt={true}
           />

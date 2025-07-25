@@ -418,15 +418,15 @@ const AIChat: React.FC<AIChatProps> = ({ theme }) => {
                     }`}
                   >
                     {/* Render Gemini responses as Markdown */}
-                    {msg.sender === "gemini" ? (
-                      <bdi>
+                    <bdi>
+                      {msg.sender === "gemini" ? (
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {msg.text}
                         </ReactMarkdown>
-                      </bdi>
-                    ) : (
-                      msg.text
-                    )}
+                      ) : (
+                        msg.text
+                      )}
+                    </bdi>
                   </div>
                 </div>
               ))}

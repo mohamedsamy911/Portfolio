@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import hms from "../assets/hms.png";
-import ras from "../assets/ras.png";
-import ecommerce from "../assets/e-commerce.png";
+import hms from "../assets/hms.webp";
+import ras from "../assets/ras.webp";
+import ecommerce from "../assets/e-commerce.webp";
 import GlareHover from "./GlareHover";
 import {
   Code,
