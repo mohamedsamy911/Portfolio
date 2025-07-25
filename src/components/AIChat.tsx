@@ -419,9 +419,11 @@ const AIChat: React.FC<AIChatProps> = ({ theme }) => {
                   >
                     {/* Render Gemini responses as Markdown */}
                     {msg.sender === "gemini" ? (
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {msg.text}
-                      </ReactMarkdown>
+                      <bdi>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {msg.text}
+                        </ReactMarkdown>
+                      </bdi>
                     ) : (
                       msg.text
                     )}
@@ -460,6 +462,7 @@ const AIChat: React.FC<AIChatProps> = ({ theme }) => {
               <div className="flex space-x-3">
                 <input
                   type="text"
+                  dir="auto"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask a question about my resume..."
@@ -474,7 +477,7 @@ const AIChat: React.FC<AIChatProps> = ({ theme }) => {
                 />
                 <button
                   type="submit"
-                  className={` text-white px-6 cursor-pointer py-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed
+                  className={`ms-1 text-white px-6 cursor-pointer py-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed
                     ${
                       theme === "dark"
                         ? "bg-indigo-800 hover:bg-indigo-700 focus:ring-indigo-500"
