@@ -2,7 +2,23 @@ import { motion, useInView } from "framer-motion";
 import React, { useEffect, useRef, useState, type JSX } from "react";
 import { RESUME_CONTENT } from "./AIChat";
 import resumePdfPath from "../assets/Resume 22025.pdf";
-import * as Icons from "lucide-react";
+import {
+  Code,
+  Cable,
+  Database,
+  Link,
+  MessageSquare,
+  Puzzle,
+  Server,
+  Terminal,
+  Code2,
+  Container,
+  Network,
+  GitBranch,
+  Clock,
+  Github,
+  BadgeInfo,
+} from "lucide-react";
 
 interface AboutSectionProps {
   readonly theme: string;
@@ -23,20 +39,20 @@ const AboutSection: React.FC<AboutSectionProps> = ({ theme }) => {
       .trim();
 
   const skillIconMap: Record<string, JSX.Element> = {
-    "React.js": <Icons.Code className="w-4 h-4" />,
-    NestJS: <Icons.Cable className="w-4 h-4" />,
-    TypeScript: <Icons.Code2 className="w-4 h-4" />,
-    Docker: <Icons.Container className="w-4 h-4" />,
-    NGINX: <Icons.Server className="w-4 h-4" />,
-    Linux: <Icons.Terminal className="w-4 h-4" />,
-    PostgreSQL: <Icons.Database className="w-4 h-4" />,
-    "RESTful APIs": <Icons.Link className="w-4 h-4" />,
-    Microservices: <Icons.Network className="w-4 h-4" />,
-    "CI/CD": <Icons.GitBranch className="w-4 h-4" />,
-    "Agile Methodologies": <Icons.Clock className="w-4 h-4" />,
-    "Problem Solving": <Icons.Puzzle className="w-4 h-4" />,
-    Communication: <Icons.MessageSquare className="w-4 h-4" />,
-    Github: <Icons.Github className="w-4 h-4" />,
+    "React.js": <Code className="w-4 h-4" />,
+    NestJS: <Cable className="w-4 h-4" />,
+    TypeScript: <Code2 className="w-4 h-4" />,
+    Docker: <Container className="w-4 h-4" />,
+    NGINX: <Server className="w-4 h-4" />,
+    Linux: <Terminal className="w-4 h-4" />,
+    PostgreSQL: <Database className="w-4 h-4" />,
+    "RESTful APIs": <Link className="w-4 h-4" />,
+    Microservices: <Network className="w-4 h-4" />,
+    "CI/CD": <GitBranch className="w-4 h-4" />,
+    "Agile Methodologies": <Clock className="w-4 h-4" />,
+    "Problem Solving": <Puzzle className="w-4 h-4" />,
+    Communication: <MessageSquare className="w-4 h-4" />,
+    Github: <Github className="w-4 h-4" />,
   };
 
   const experienceData = [
@@ -127,9 +143,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ theme }) => {
             : "bg-indigo-100 text-indigo-800 border-indigo-300 hover:bg-indigo-200"
         } transition-transform duration-200 hover:-translate-y-1`}
                   >
-                    {skillIconMap[skill] || (
-                      <Icons.BadgeInfo className="w-4 h-4" />
-                    )}
+                    {skillIconMap[skill] || <BadgeInfo className="w-4 h-4" />}
                     {skill}
                   </motion.div>
                 ))}
